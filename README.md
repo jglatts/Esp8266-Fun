@@ -1,2 +1,2 @@
 # esp8266-fun
-Simple nodemcu esw8266 programs
+Simple nodemcu esw8266 sketches
