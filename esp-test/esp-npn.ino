@@ -24,7 +24,7 @@ const int LEDPin = LED_BUILTIN;
 const int switch_pin = 4;  // base pin for npn transistor, when HIGH it will close the DC motor connection
 
 void setup(void){
-  //the HTML of the web page
+  // css not working
   style = "button{size:5em;} h1 {font-size:3em;}";
   // update with npn info
   page = "<h1>Whasup Mane!!!!</h1><h2>Servo Control!</h2><p><a href=\"LEDOn\"><button>On</button></a>&nbsp;<a href=\"LEDOff\"><button>OFF</button></a>&nbsp;<a href=\"LEDOn90\"><button>Tiny Move</button></a></p>";
