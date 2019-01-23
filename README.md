@@ -1,2 +1,3 @@
-# esp8266-fun
-Simple nodemcu esw8266 sketches
+# ESP8266-Fun
+  Get on that wifi mane
+
