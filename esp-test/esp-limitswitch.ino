@@ -18,7 +18,7 @@ void setup(void){
   page = "<h1>Whasup Mane!!!!</h1><p><a href=\"LEDOn\"><button>ON</button></a>&nbsp;<a href=\"LEDOff\"><button>OFF</button></a></p>";
   //make the LED pin output and initially turned off
   pinMode(LEDPin, OUTPUT);
-  pinMode(BTNpin, INPUT);
+  pinMode(BTNpin, INPUT_PULLUP);
   digitalWrite(LEDPin, HIGH);
    
   delay(1000);
