@@ -58,10 +58,10 @@ void loop(void){
   // eskedit
   server.handleClient();
   if (digitalRead(BTNpin) == LOW) {
-    Serial.println("Button Pressed!!");
+    Serial.println("Nothing Happened...");
     digitalWrite(LEDPin, LOW);
   } else {
-    Serial.println("Nothing Happened...");
+    Serial.println("Button Pressed");
     digitalWrite(LEDPin, HIGH);
   }
   
