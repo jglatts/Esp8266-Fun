@@ -9,13 +9,13 @@ const char* password = "";
 ESP8266WebServer server(80);   //instantiate server at port 80 (http port)
  
 String page = "";
+String BTNstate = "";
 int LEDPin = LED_BUILTIN;
 int BTNpin = 4;
-int BTNstate = 0;
 
 void setup(void){
   //the HTML of the web page
-  page = "<h1>Whasup Mane!!!!</h1><p><a href=\"LEDOn\"><button>ON</button></a>&nbsp;<a href=\"LEDOff\"><button>OFF</button></a></p>";
+  page = "<h1>Whasup Mane!!!!</h1><p><a href=\"LEDOn\"><button>ON</button></a>&nbsp;<a href=\"LEDOff\"><button>OFF</button></a></p><h2>"+BTNstate+"</h2>";
   //make the LED pin output and initially turned off
   pinMode(LEDPin, OUTPUT);
   pinMode(BTNpin, INPUT_PULLUP);
@@ -59,10 +59,16 @@ void loop(void){
   server.handleClient();
   if (digitalRead(BTNpin) == LOW) {
     Serial.println("Nothing Happened...");
-    digitalWrite(LEDPin, LOW);
+    digitalWrite(LEDPin, LOW);  
+    BTNstate = "Button Is Off...";
+    server.handleClient();
   } else {
     Serial.println("Button Pressed");
     digitalWrite(LEDPin, HIGH);
+    BTNstate = "Button Is On...";
+    server.handleClient();
   }
-  
+  //the HTML of the web page
+  // get it to automatically update when BTN state changes
+  page = "<h1>Whasup Mane!!!!</h1><p><a href=\"LEDOn\"><button>ON</button></a>&nbsp;<a href=\"LEDOff\"><button>OFF</button></a></p><h2>"+BTNstate+"</h2>";
 }
