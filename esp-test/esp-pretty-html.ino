@@ -1,6 +1,6 @@
 /*
- * Author: John Glatts
- * Base code from: www.circuits4you.com
+ * Hello world web server
+ * circuits4you.com
  */
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
@@ -32,8 +32,9 @@ const char MAIN_page[] PROGMEM = R"=====(
       <p style="font-size:3em" id="test">Tits!</p>
       <br>
       <!-- Fix link and add to a seperate .h file -->
-      <button><a href="">LED On</a></button>
-      <p style="font-size:3em" id="test"> String(LEDstate) </p>
+      <button><a href="LEDOn">LED On</a></button>
+      <button><a href="LEDOff">LED Off</a></button>
+      <p style="font-size:3em" id="test"></p>
   </CENTER> 
 </BODY>
 </HTML>
@@ -46,6 +47,24 @@ const char MAIN_page[] PROGMEM = R"=====(
 void handleRoot() {
  String s = MAIN_page; //Read HTML contents
  server.send(200, "text/html", s); //Send web page
+}
+
+
+void turnLEDon() {
+    LEDstate = "Led On";
+    String s = MAIN_page; //Read HTML contents
+    server.send(200, "text/html", s);
+    digitalWrite(LED, LOW);
+    delay(1000);
+}
+
+
+void turnLEDoff() {
+    LEDstate = "Led Off";
+    String s = MAIN_page; //Read HTML contents
+    server.send(200, "text/html", s);
+    digitalWrite(LED, HIGH);
+    delay(1000);
 }
 
 
@@ -74,9 +93,9 @@ void setup(void){
   Serial.println(WiFi.localIP());  //IP address assigned to your ESP
  
   server.on("/", handleRoot);      //Which routine to handle at root location
-
-  // this link is not working, the fix is on it's way
-  // going to try and replicate handleRoot, i.e just call the function inside server.on()
+  server.on("/LEDOn", turnLEDon);
+  server.on("/LEDOff", turnLEDoff);
+  /* 
   server.on("/LEDOn", [](){
     LEDstate = "Led On";
     String s = MAIN_page; //Read HTML contents
@@ -84,12 +103,10 @@ void setup(void){
     digitalWrite(LED, LOW);
     delay(1000);
   });
-
+  */
   server.begin();                  //Start server
   Serial.println("HTTP server started");
 }
-
-
 //==============================================================
 //                     LOOP
 //==============================================================
