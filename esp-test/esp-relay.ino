@@ -1,34 +1,39 @@
 /*
  * Author: John Glatts
  * JQC-3FF-S-Z Relay and DC Motor Program
+ * Test to see if ESP8266 can power the realy 
  */
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-#include "index.h"
+#include "index.h"   
 
 // Replace with your network credentials
 const char* ssid = "";
 const char* password = "";
  
 ESP8266WebServer server(80);   //server at port 80 (http port)
- 
-// string for html, 'page' is coming from index.h
+
+// string for html
 String main_page = page;
+String motor_on_page = on_page;
+String motor_off_page = off_page;
+
+// declare vairables
+double data = 0; 
 
 // I/O pin define
 const int LED = LED_BUILTIN;
 const int SIGpin = 5;
 
-
-/* turn LED and relay on */
 void motor_move(void) {
+  // turn LED and relay on
   digitalWrite(LED, LOW);  
   digitalWrite(SIGpin, HIGH); 
+  // see if we can get away with no delay()
 }
 
 
-/* turn LED and relay off */
 void motor_stop(void) {
   // turn LED and relay off
   digitalWrite(LED, HIGH);  
@@ -60,18 +65,15 @@ void setup(void){
 
   // add working CSS at some point
   server.on("/", [](){
-    //page = "<h1>Whasup Mane!!!!</h1><h2>Motor Control</h2><p><a href=\"LEDOn\"><button>Motor On</button></a>&nbsp;<a href=\"LEDOff\"><button>Motor Off</button></a>";
     server.send(200, "text/html", main_page);
   });
   server.on("/LEDOn", [](){
-    //page = "<h1>Whasup Mane!!!!</h1><h2>Motor Control</h2><p><a href=\"LEDOn\"><button>Motor On</button></a>&nbsp;<a href=\"LEDOff\"><button>Motor Off</button></a>";
-    server.send(200, "text/html", main_page);
+    server.send(200, "text/html", motor_on_page);
     motor_move();
     //delay(1000);
   });
   server.on("/LEDOff", [](){
-    //page = "<h1>Whasup Mane!!!!</h1><h2>Motor Control</h2><p><a href=\"LEDOn\"><button>Motor On</button></a>&nbsp;<a href=\"LEDOff\"><button>Motor Off</button></a>";
-    server.send(200, "text/html", main_page);
+    server.send(200, "text/html", motor_off_page);
     motor_stop();
     //delay(1000); 
   });
