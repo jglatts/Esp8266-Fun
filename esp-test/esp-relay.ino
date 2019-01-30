@@ -5,6 +5,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+#include "index.h"
 
 // Replace with your network credentials
 const char* ssid = "";
@@ -12,38 +13,7 @@ const char* password = "";
  
 ESP8266WebServer server(80);   //server at port 80 (http port)
  
-// html, place in seperate header file to clean up 
-const char page[] PROGMEM = R"=====(
-<HTML>
-  <HEAD>
-      <TITLE>AYYYY</TITLE>
-  </HEAD>
-  <style>
-    #test:hover {
-      color: brown;
-    }
-    h1 {
-      font-size: 5em;
-    }
-    button {
-      font-size: 2.5em;
-    }
-    a {
-      text-decoration: none;
-    }
-  </style>
-<BODY>
-  <CENTER>
-      <h1><B>Motor Contol</B></h1>
-      <br>
-      <button><a href="LEDOn">Motor On</a></button>
-      <button><a href="LEDOff">Motor Off</a></button>
-  </CENTER> 
-</BODY>
-</HTML>
-)=====";
-
-// string for html
+// string for html, 'page' is coming from index.h
 String main_page = page;
 
 // I/O pin define
