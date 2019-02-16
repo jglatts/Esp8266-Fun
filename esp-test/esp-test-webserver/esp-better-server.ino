@@ -175,7 +175,7 @@ void flashLED() {
             pixels.show();
             color = "Off";
         }
-        delay(200);  // flash every half second
+        delay(200); 
     }
      cycles++;   // increase cycle value after every off/on
 }
