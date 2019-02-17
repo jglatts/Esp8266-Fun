@@ -148,7 +148,7 @@ void flashLED() {
       snprintf(temp_pix, 500,
              "<html>\
              <head>\
-                <meta http-equiv='refresh' content='3'/>\
+                <meta http-equiv='refresh' content='2'/>\
                 <title>ESP8266 Demo</title>\
                 <style>\
                     body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088;}\
@@ -171,14 +171,14 @@ void flashLED() {
             pixels.show();
             color = "Blue";
         }
-        delay(50);
+        delay(10);
         // PIX Off
         for (int x = 0; x < NUM_PIX; ++x) {
             pixels.setPixelColor(x, pixels.Color(0,0,0));
             pixels.show();
             color = "Off";
         }
-        delay(50);  // flash every half second
+        delay(10);  
     }
      cycles++;   // increase cycle value after every off/on
 }
