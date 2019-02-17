@@ -43,6 +43,8 @@
 const char *ssid = STASSID;
 const char *password = STAPSK;
 
+int cycles = 0;
+
 ESP8266WebServer server(80);
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM_PIX, PIXPIN, NEO_GRB + NEO_KHZ800);
 
@@ -61,12 +63,14 @@ void handleRoot() {
     <title>ESP8266 Demo</title>\
     <style>\
       body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }\
+      p {font-size:2em;}\
     </style>\
   </head>\
   <body>\
     <h1>Hello from ESP8266!</h1>\
     <p>Uptime: %02d:%02d:%02d</p>\
     <img src=\"/test.svg\" />\
+    <p><a href=\"/PixOn\">Pixel On</a></p>\
   </body>\
 </html>",
 
@@ -139,7 +143,6 @@ void loop(void) {
 void flashLED() {
       char temp_pix[500];
       String color= "";
-      int cycles = 0;
       
       // setup html first
       snprintf(temp_pix, 500,
@@ -149,7 +152,7 @@ void flashLED() {
                 <title>ESP8266 Demo</title>\
                 <style>\
                     body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088;}\
-                    p {size: 2em;}\
+                    p {font-size: 2em;}\
                 </style>\
                 </head>\
              <body>\
@@ -161,21 +164,21 @@ void flashLED() {
 
     server.send(200, "text/html", temp_pix);
     // 5 cycles when href is active, testing what cycle time is the best
-    for (int j = 0;j < 5; ++j) {
+    for (int j = 0;j < 8; ++j) {
         // PIX On
         for (int i = 0; i < NUM_PIX; ++i) {
-            pixels.setPixelColor(i, pixels.Color(255,155,155));
+            pixels.setPixelColor(i, pixels.Color(50,0,155));
             pixels.show();
             color = "Blue";
         }
-        delay(200);
+        delay(50);
         // PIX Off
         for (int x = 0; x < NUM_PIX; ++x) {
             pixels.setPixelColor(x, pixels.Color(0,0,0));
             pixels.show();
             color = "Off";
         }
-        delay(200); 
+        delay(50);  // flash every half second
     }
      cycles++;   // increase cycle value after every off/on
 }
@@ -192,7 +195,7 @@ void offLED() {
                 <title>ESP8266 Demo</title>\
                 <style>\
                     body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088;}\
-                    p {size: 2em;}\
+                    p {font-size: 2em;}\
                 </style>\
                 </head>\
              <body>\
@@ -206,7 +209,7 @@ void offLED() {
                 pixels.show();
              }
              
-        server.send(200, "image/svg+xml", temp_pix);
+        server.send(200, "text/html", temp_pix);
 }
 
 
