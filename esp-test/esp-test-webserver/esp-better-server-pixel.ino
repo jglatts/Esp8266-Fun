@@ -64,19 +64,17 @@ void handleRoot() {
     <style>\
       body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }\
       p {font-size:2em;}\
+      h2 {font-size:5em;}\
     </style>\
   </head>\
   <body>\
     <h1>Hello from ESP8266!</h1>\
     <p>Uptime: %02d:%02d:%02d</p>\
     <img src=\"/test.svg\" />\
-    <p><a href=\"/PixOn\">Pixel On</a></p>\
+    <h2><a href='PixOn'>Pixel On</a></h2>\
   </body>\
-</html>",
-
-           hr, min % 60, sec % 60
-          );
-  server.send(200, "text/html", temp);
+</html>", hr, min % 60, sec % 60);
+ server.send(200, "text/html", temp);
 }
 
 
@@ -148,30 +146,39 @@ void flashLED() {
       snprintf(temp_pix, 500,
              "<html>\
              <head>\
-                <meta http-equiv='refresh' content='2'/>\
+                <meta http-equiv='refresh' content='3'/>\
                 <title>ESP8266 Demo</title>\
                 <style>\
                     body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088;}\
-                    p {font-size: 2em;}\
+                    p {font-size: 4em;}\
                 </style>\
                 </head>\
              <body>\
                 <h1>Hello from ESP8266!</h1>\
-                <p>PIXEL CYCLES: %d</p>\
-                <p><a href=\"/PixOff\">Pixel Off</a></p>\
+                <p>Pixel Cycle: %d</p>\
+                <p><a href='PixOff'>Pixel Off</h2>\
              </body>\
              </html>", cycles);
 
     server.send(200, "text/html", temp_pix);
     // 5 cycles when href is active, testing what cycle time is the best
-    for (int j = 0;j < 8; ++j) {
-        // PIX On
-        for (int i = 0; i < NUM_PIX; ++i) {
-            pixels.setPixelColor(i, pixels.Color(50,0,155));
-            pixels.show();
-            color = "Blue";
+    for (int j = 0;j < 24; ++j) {
+        // PIX On and switch Color
+       if (j%2==0) {
+           for (int i = 0; i < NUM_PIX; ++i) {
+              pixels.setPixelColor(i, pixels.Color(0,0,155));
+              pixels.show();
+              color = "Blue";
+         } 
+       } else {
+            for (int q = 0; q < NUM_PIX; ++q) {
+              // testing the 'running' cycle
+              pixels.setPixelColor(q, pixels.Color(255,0,0));
+              pixels.show();
+              color = "Blue";
         }
-        delay(10);
+       }
+       delay(25);
         // PIX Off
         for (int x = 0; x < NUM_PIX; ++x) {
             pixels.setPixelColor(x, pixels.Color(0,0,0));
@@ -195,12 +202,13 @@ void offLED() {
                 <title>ESP8266 Demo</title>\
                 <style>\
                     body { background-color: #cccccc; font-family: Arial, Helvetica, Sans-Serif; Color: #000088;}\
-                    p {font-size: 2em;}\
+                    p {font-size: 4em;}\
+                    #test {font-size: 5em;}\
                 </style>\
                 </head>\
              <body>\
                 <h1>Hello from ESP8266!</h1>\
-                <p><a href=\"/PixOn\">Pixel On</a></p>\
+                <p><a href='PixOn'>Pixel On</a></h2>\
              </body>\
              </html>");
              
