@@ -238,8 +238,8 @@ void offLED() {
 void getDistance() {
   char temp_pix[500];
 
-  // PIXEL is off at the start
-  for(int i=0;i<distance-1;++i){
+  // start with PIXEL off
+  for(int i=0;i<NUM_PIX;++i){
         pixels.setPixelColor(i, pixels.Color(0,0,0));
         pixels.show();       
    } 
@@ -275,7 +275,7 @@ void getDistance() {
    // check best way to light up pixel based on distance
    if (distance >= NUM_PIX) {
       // turn off PIXEL if object is far away
-      for(int j=0;j<distance;++j){
+      for(int j=0;j<NUM_PIX;++j){
         pixels.setPixelColor(j, pixels.Color(0,0,0));
         pixels.show();       
       } 
