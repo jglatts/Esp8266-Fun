@@ -29,8 +29,6 @@
    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-   -ToDo
-        - Throw HTML strings in different .h files
 */
 #include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
@@ -48,6 +46,7 @@
 #define TRIG 4
 #define ECHO 0
 #define NUM_PIX 12
+#define MAX_SIZE 1000
 
 
 // Strings for WiFi
@@ -61,6 +60,7 @@ int motor_revs = 0;
 int collected_dists = 0;
 int duration = 0;
 int distance = 0;
+int all_distances[MAX_SIZE];
 String dist_pix_color = "";
 String color = "";
 String btn_state = "";
@@ -156,6 +156,7 @@ void handleNotFound() {
 
 /* Setup Everything Dawg */
 void setup(void) {
+    all_distances[0] = 0;   
     pinMode(TRIG, OUTPUT);
     pinMode(ECHO, INPUT);
     pixels.begin();
@@ -295,11 +296,11 @@ void offLED() {
 
 /* Activate the HC-SR04 and update the distance */
 void getDistance() {
+    // Turn PIXEL off  
     for (int i = 0; i < NUM_PIX; ++i) {
         pixels.setPixelColor(i, pixels.Color(0,0,0));
         pixels.show();
     }
-
     // Get Distance
     digitalWrite(TRIG, LOW);
     delayMicroseconds(2);
@@ -310,6 +311,7 @@ void getDistance() {
     distance= duration * 0.034/2;
     String color = "";
     collected_dists++;
+    all_distances[collected_dists] = distance;
     if (distance > NUM_PIX) {
         for (int i = 0; i < NUM_PIX; ++i) {
             pixels.setPixelColor(i, pixels.Color(0,0,0));
@@ -321,7 +323,7 @@ void getDistance() {
             pixels.setPixelColor(i, pixels.Color(255,0,0));  // red
             pixels.show();
         }
-        color += "RED, HARMFUL OBJECT";
+        color += "RED, HARMFUL OBJECT -- CHECK PIXEL TO VERIFY";
     }
     String distance_html = "<!DOCTYPE html>";
     distance_html +=                     "<html>";
@@ -348,6 +350,8 @@ void getDistance() {
     distance_html +=                     "<p>PIXEL Color: ";
     distance_html +=                     color;
     distance_html +=                     "</p>";
+    distance_html +=                     "<p>Last Distance: ";
+    distance_html +=                     all_distances[collected_dists-1];
     distance_html +=                     "<p>Distances Collected: ";
     distance_html +=                     collected_dists;
     distance_html +=                     "</p>";
@@ -370,7 +374,7 @@ void pixCrawl() {
         pixels.setPixelColor(i+q, 0, 250, 0);    //turn every third pixel on
       }
       pixels.show();
-      delay(50);
+      delay(150);
       for (int i=0; i < pixels.numPixels(); i=i+3) {
         pixels.setPixelColor(i+q, 0);        //turn every third pixel off
       }
@@ -384,11 +388,11 @@ void pixOneByOne() {
     for (int i = 0;i < pixels.numPixels();++i) {
         pixels.setPixelColor(i, 0, 0, 255);
         pixels.show();
-        delay(100);   
+        delay(60);   
     }
     for (int x = 0;x < pixels.numPixels();++x) {
         pixels.setPixelColor(x, 0, 0, 0);
         pixels.show();
-        delay(100);   
+        delay(60);   
     }
 }
