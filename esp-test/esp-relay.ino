@@ -1,7 +1,6 @@
 /*
  * Author: John Glatts
  * JQC-3FF-S-Z Relay and DC Motor Program
- * Test to see if ESP8266 can power the realy 
  */
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
