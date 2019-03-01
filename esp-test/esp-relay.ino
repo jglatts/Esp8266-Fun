@@ -29,7 +29,6 @@ void motor_move(void) {
   // turn LED and relay on
   digitalWrite(LED, LOW);  
   digitalWrite(SIGpin, HIGH); 
-  // see if we can get away with no delay()
 }
 
 
@@ -62,7 +61,6 @@ void setup(void){
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  // add working CSS at some point
   server.on("/", [](){
     server.send(200, "text/html", main_page);
   });
