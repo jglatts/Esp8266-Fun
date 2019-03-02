@@ -5,10 +5,6 @@
   Brief: NodeMCU program that sends html, and a bit off css, to a webserver. An Adafruit neo-pixel is hooked up with various
          LED patterns. The server also displays data from a HC-SR04 distance sensor.
 
-  -ToDo
-        - 3/1/19 No Compile, yet....
-        - Use random() to generate color codes
-        - Check if randomseed() of a[0] is needed
 */
 #include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
