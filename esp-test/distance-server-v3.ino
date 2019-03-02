@@ -1,14 +1,14 @@
 /*
 
   Author: John Glatts
-  
-  Brief: NodeMCU program that sends html, and a bit off css, to a webserver. An Adafruit neo-pixel is hooked up with various 
-         LED patterns. The server also displays data from a HC-SR04 distance sensor.  
-  
+
+  Brief: NodeMCU program that sends html, and a bit off css, to a webserver. An Adafruit neo-pixel is hooked up with various
+         LED patterns. The server also displays data from a HC-SR04 distance sensor.
+
   -ToDo
-        - General clean-up
-        - Add some AJAX and spice up the css
-        
+        - 3/1/19 No Compile, yet....
+        - Use random() to generate color codes
+        - Check if randomseed() of a[0] is needed
 */
 #include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
@@ -400,12 +400,15 @@ void getDistance() {
 
 /* Theatre-Style LED chase, from example code in pixel-library */
 void pixCrawl() {
-    int rand = random(0, 256);
+    int rand_num = random(0, 256);
+    int rand_num_1 = random(0, 256);
+    int rand_num_2 = random(0, 256);
+    
     server.send(200, "text/html", index_html);
-    for (int j=0;j < 15; j++) {  // 15 cycles of chasing
+    for (int j=0;j < 10; j++) {  // 10 cycles of chasing
         for (int q=0; q < 3; q++) {
             for (int i=0; i < pixels.numPixels(); i=i+3) {
-                pixels.setPixelColor(i+q, 0, rand, 0);    // turn every third pixel on
+                pixels.setPixelColor(i+q, rand_num, rand_num_1, rand_num_2);    // turn every third pixel on
             }
             pixels.show();
             delay(80);
