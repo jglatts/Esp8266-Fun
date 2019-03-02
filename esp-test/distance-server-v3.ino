@@ -6,9 +6,9 @@
          LED patterns. The server also displays data from a HC-SR04 distance sensor.  
   
   -ToDo
-        - 3/1/19 No Compile, yet....
-        - Use random() to generate color codes
-        - Check if randomseed() of a[0] is needed
+        - General clean-up
+        - Add some AJAX and spice up the css
+        
 */
 #include <Adafruit_NeoPixel.h>
 #include <ESP8266WiFi.h>
@@ -18,8 +18,8 @@
 
 // WiFi defines and I/O Pins
 #ifndef STASSID
-#define STASSID ""
-#define STAPSK  ""
+#define STASSID " "
+#define STAPSK  " "
 #endif
 // double check these pins are useable
 #define PIXPIN 5
@@ -425,16 +425,9 @@ void pixOneByOne() {
 
     server.send(200, "text/html", index_html);
     for (int i = 0; i < pixels.numPixels(); ++i) {
-        if (i % 2 == 0) {
-            pixels.setPixelColor(i, rand_numb_0, rand_numb_1, rand_numb_2);
-            pixels.show();
-            delay(40);
-        }
-        else {
-            pixels.setPixelColor(i, 0, 255, 255);
-            pixels.show();
-            delay(40);
-        }
+        pixels.setPixelColor(i, rand_numb_0, rand_numb_1, rand_numb_2);
+        pixels.show();
+        delay(40);
     }
     // turn pixel off, then start another cycle
     for (int x = 0; x < NUM_PIX; ++x) {
@@ -521,4 +514,3 @@ void allDistances() {
     // it will display garbage values
     dist_increase++;
 }
-
