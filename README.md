@@ -9,6 +9,8 @@ The servo PWM pin is conencted to pin 4 on the nodemcu.
 # esp-limitswitch.ino
 A limit switch that will turn some blinky LEDs on.
 
+#esp-neopixel-server.ino
+Pin 5 of the nodemcu is attached to an Adafruit neopixel ring, with various LED patterns to watch. Check it out!
 
 # esp-relay.ino
 Another motor related program, but this one deals with a DC motor. The signal pin for the relay is connected to pin 5 on the nodemcu. The motor is 12v. 
