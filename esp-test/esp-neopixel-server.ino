@@ -6,7 +6,7 @@
          LED patterns. Testing different LED patters with random()
 
   -ToDo
-        - Use random() to generate color codes
+        - Add more dope patterns mayne
         - Figure out why esp is timing out at the Z
 */
 #include <Adafruit_NeoPixel.h>
@@ -22,8 +22,8 @@
 
 
 // Strings for WiFi
-const char *ssid = " ";
-const char *password = " ";
+const char *ssid = "";
+const char *password = "";
 
 
 // I/O variables
@@ -82,12 +82,6 @@ void handleNotFound() {
     message += "\nArguments: ";
     message += server.args();
     message += "\n";
-    message += "Click a Link to Change";
-    message += "<a href=\"/PixOn\">Pixel On</a>";
-    message += "<br>";
-    message += "<a href=\"/PixCrawl\">Pixel Crawl</a>";
-    message += "<br>";
-    message += "<a href=\"/PixOnebyOne\">Pixel One By One</a>";
 
     for (uint8_t i = 0; i < server.args(); i++) {
         message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
@@ -223,6 +217,7 @@ void offLED() {
     int total_off_time = current_time - global_start_time; // get total PIXEL off time, in Milliseconds(), may have change
     long minutes = (total_off_time / 1000)  / 60;
 
+    // move the loop to the bottom, and sens the web-page first, may help with timing
     for (int i = 0; i < NUM_PIX; ++i) {
         pixels.setPixelColor(i, pixels.Color(0,0,0));
         pixels.show();
@@ -232,7 +227,6 @@ void offLED() {
     String pix_off_html = "<!DOCTYPE html>";
     pix_off_html += "<html>";
     pix_off_html += "<head>";
-    pix_off_html += "<meta http-equiv='refresh' content='3'/>";
     pix_off_html += "<style>";
     pix_off_html += "p {";
     pix_off_html += "font-size: 3em;";
@@ -271,23 +265,38 @@ void pixCrawl() {
     server.send(200, "text/html", index_html);
     // 10 cycles of crawling
     for (int j=0;j < 10; j++) {
-        // Crawl-effect, looping through every second pixel
-        for (int k = 0; k < 2; ++k) {
-            // turn every second pixel on
-            for (int a=0; a < pixels.numPixels(); a=a+2) {
-                // how to change each pixel color though?????
-                // testing the if-statement to change some LED color
-                if (a + k == 2 || a + k == 6 || a + k == 10) {
-                    pixels.setPixelColor(a + k, 0, rand_num_1, random(10, 190));
-                } else {
-                    pixels.setPixelColor(a + k, rand_num, rand_num_1, rand_num_2);
+        if (j%2==0) {
+            // Crawl-effect, looping through every sixth pixel
+            for (int k = 0; k < 6; ++k) {
+                    if (a + k == 2 || a + k == 8) {
+                        pixels.setPixelColor(a + k, 0, rand_num_1, rand_num_1);
+                    } else {
+                        pixels.setPixelColor(a + k, rand_num, rand_num_1, rand_num_2);
+                    }
+                }
+                pixels.show();
+                delay(80);
+                for (int z=0; z < pixels.numPixels(); z++) {
+                    pixels.setPixelColor(z, 0);
                 }
             }
-            pixels.show();
-            delay(80);
-            // turn every second pixel off
-            for (int z=0; z < pixels.numPixels(); z++) {
-                pixels.setPixelColor(z, 0);
+        } else {
+            // Crawl-effect, looping through every second pixel
+            for (int k = 0; k < 2; ++k) {
+                for (int a=0; a < pixels.numPixels(); a=a+2) {
+                    if (a + k == 2 || a + k == 6 || a + k == 10) {
+                        // poss change back to rand_num_1, LED seems to 'flicker' when random() is here
+                        pixels.setPixelColor(a + k, 0, rand_num_1, random(10, 190));
+                    } else {
+                        pixels.setPixelColor(a + k, rand_num, rand_num_1, rand_num_2);
+                    }
+                }
+                pixels.show();
+                delay(80);
+                // turn every second pixel off
+                for (int z=0; z < pixels.numPixels(); z++) {
+                    pixels.setPixelColor(z, 0);
+                }
             }
         }
     }
@@ -301,8 +310,9 @@ void pixOneByOne() {
     int rand_numb_2 = random(0, 256);
 
     server.send(200, "text/html", index_html);
+    // test to change color on each PIXEL
     for (int i = 0; i < pixels.numPixels(); ++i) {
-        pixels.setPixelColor(i, rand_numb_0, rand_numb_1, rand_numb_2);
+        pixels.setPixelColor(i, random(0,256), random(0,256), random(0,256));
         pixels.show();
         delay(40);
     }
@@ -313,5 +323,3 @@ void pixOneByOne() {
         delay(60);
     }
 }
-
-
