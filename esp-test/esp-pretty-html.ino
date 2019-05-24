@@ -1,6 +1,5 @@
 /*
  * Hello world web server
- * circuits4you.com
  */
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
