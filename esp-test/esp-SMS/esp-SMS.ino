@@ -9,8 +9,8 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
 
-#define WIFI     "ZAXIS"
-#define PASSWORD "HMZIAB09"
+#define WIFI     "yourwifi"
+#define PASSWORD "yourPW"
 #define TRIG     4
 #define ECHO     0
 #define LIMIT    11	
