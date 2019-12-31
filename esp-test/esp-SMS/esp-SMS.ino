@@ -2,6 +2,8 @@
   ESP8266 program that moniters distance.
   If an object gets too close to the device it well send a text
   and email message.
+	
+  IFTT link = https://ifttt.com/applets/108131390d	
 
   @author: johng
 
